@@ -231,4 +231,5 @@ class HubInfo(db.Resource):
 
     pass
 
-
+class User(db.Resource):
+    keys = ("email", "password")
