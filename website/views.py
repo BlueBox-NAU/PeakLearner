@@ -14,7 +14,9 @@ def home(request):
 def about(request):
     return {}
 
-
+@view_config(route_name='googlelogin', renderer='googlelogin.html')
+def about(request):
+    return {}
 
 @view_config(route_name='newHub', renderer='newHub.html')
 def newHub(request):
