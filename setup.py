@@ -8,6 +8,7 @@ requires = [
     'waitress',
     'pandas',
     'pybbi',
+    'pyramid-google-login',
 ]
 
 # List of dependencies installed via `pip install -e ".[dev]"`
