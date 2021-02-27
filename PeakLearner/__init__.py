@@ -6,10 +6,10 @@ def main(global_config, **settings):
     config = Configurator(settings=settings)
     # Front end page
     config.add_route('home', '')
-    config.add_route('about', '/about/')
     config.add_route('googlelogin', '/googlelogin/')
     config.add_route('jbrowse', '/jbrowse/')
     config.add_route('newHub', '/newHub/')
+    config.add_route('about', '/about/')
     config.add_route('tutorial', '/tutorial/')
     config.add_static_view(name='tutorial/static', path='website:static/tutorial')
     config.add_route('uploadHubUrl', '/uploadHubUrl/')
