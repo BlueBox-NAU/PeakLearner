@@ -52,6 +52,11 @@ def createTrackListWithHubInfo(info):
 def parseHub(data):
     parsed = parseUCSC(data)
     # Add a way to configure hub here somehow instead of just loading everythingS
+    for i in range(10):
+        print("#################################################")
+    print("Parsed :", parsed)
+    for i in range(10):
+        print("#################################################")
     return createHubFromParse(parsed)
 
 
@@ -314,7 +319,7 @@ def parseUCSC(data):
 
     # TODO: Add User to query
 
-    hub['user'] = data['user']
+    hub['user'] = "jdh553@nau.edu"
 
     if hub['genomesFile']:
         hub['genomesFile'] = loadGenomeUCSC(hub, path)
@@ -478,5 +483,6 @@ def downloadAndUnpackFile(url, path):
 def getHubInfo(user, hub):
     return db.HubInfo(user, hub).get()
 
-
+def GET_THE_HUB_KEYS_LOL():
+    return db.HubInfo.db_key_tuples()
 

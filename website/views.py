@@ -46,6 +46,8 @@ def about(request):
 def newHub(request):
     return {}
 
+
+
 @view_config(route_name='tutorial', renderer='tutorial.html')
 def tutorial(request):
     return {}

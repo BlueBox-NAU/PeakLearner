@@ -285,7 +285,7 @@ def getModelSummary(data):
 
     for problem in problems:
         # TODO: Replace 1 with user of hub NOT current user
-        modelSummaries = db.ModelSummaries(1, data['hub'], data['track'], problem['chrom'], problem['chromStart']).get()
+        modelSummaries = db.ModelSummaries("jdh553@nau.edu", data['hub'], data['track'], problem['chrom'], problem['chromStart']).get()
 
         if len(modelSummaries.index) < 1:
             continue
