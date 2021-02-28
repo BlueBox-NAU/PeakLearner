@@ -319,7 +319,7 @@ def parseUCSC(data):
 
     # TODO: Add User to query
 
-    hub['user'] = "jdh553@nau.edu"
+    hub['user'] = data['user']
 
     if hub['genomesFile']:
         hub['genomesFile'] = loadGenomeUCSC(hub, path)

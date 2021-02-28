@@ -46,17 +46,18 @@ def uploadHubUrl(request):
         user = request.unauthenticated_userid
         for i in range(10):
             print("#################################################")
-        print(request)
+        print(user)
+        print("Request:", request)
         for i in range(10):
             print("#################################################")
         
         
         try:
-            return Hubs.parseHub({'user': "jdh553@nau.edu", 'url': request.json_body['args']['hubUrl']})
+            return Hubs.parseHub({'user': user, 'url': request.json_body['args']['hubUrl']})
         except json.decoder.JSONDecodeError:
             print("request.POST: ", request.POST)
             print("request.POST['hubUrl']: " , request.POST['hubUrl'])
-            parsedHub = Hubs.parseHub({'user': "jdh553@nau.edu", 'url': request.POST['hubUrl']})
+            parsedHub = Hubs.parseHub({'user': user, 'url': request.POST['hubUrl']})
             print("Parsed Hub: ", parsedHub)
             return parsedHub
     return
