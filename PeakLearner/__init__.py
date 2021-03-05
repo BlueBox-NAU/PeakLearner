@@ -69,6 +69,7 @@ def main(global_config, **settings):
     config.add_route('labelStats', '/stats/label/')
     config.add_route('jobStats', '/stats/job/')
     config.add_static_view(name='tutorial/static', path='website:static/tutorial')
+    config.add_static_view(name='assets', path='website:static/assets')
     config.add_route('myHubs', '/myHubs/')
     config.add_route('uploadHubUrl', '/uploadHubUrl/')
     config.add_route('jobs', '/jobs/')
