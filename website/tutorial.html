@@ -64,9 +64,9 @@
   <div class="row flex-grow-1 h-100">
     <div id="tutorial" class="col vh-100 carousel slide" data-bs-ride="carousel" data-bs-interval=false>
       <div class="carousel-inner">
-      
+
         <div class="carousel-item active">
-        
+
           <div class="tutorial-title">Introduction</div>
           <p>PeakLearner is an interactive genome annotation tool which uses machine learning to analyze peaks in genomic data.<br>
           Below is an example of a data track.</p>
@@ -90,11 +90,18 @@
 
 
         </div>
-        
-        
+
+        <div class="carousel-item">
+        	<div class="tutorial-title">Login</div>
+        	<p>After open PeakLearner, You will see the welcome information</p>
+          <img src="static/index.png" alt="the index welcome text">
+          <p>Then move to the account section on the right up side</p>
+          <img src="sta" alt="">
+        </div>
+
         <div class="carousel-item">
           <div class="tutorial-title">Getting Started</div>
-          <p>When getting started with PeakLearner, you will need to upload a new hub.txt.
+          <p>After login in, you will need to upload a new hub.txt.
             An example hub.txt can be found <a href="https://rcdata.nau.edu/genomic-ml/PeakLearner/testHub/hub.txt">here</a>.
             On the navigation bar at the top, click hubs, then add new hub. (Note: this will change pages, do this in a new tab if you are following this guide)
             </p>
@@ -110,8 +117,8 @@
           <img src="static/AfterTrackSelection.png" alt="The hub after selecting a few data tracks">
           <p>With data tracks and a set of reference genes, labels can now be added to analyze the genomic data.</p>
         </div>
-       
-       
+
+
         <div class="carousel-item">
           <div class="tutorial-title">Labeling</div>
           <p>Labeling is intuitive with this configuration of Jbrowse.
@@ -126,7 +133,7 @@
           <p>Labels can also be deleted, simply right click a label to delete it.</p>
           <img src="static/AfterDelete.png" alt="After deletion of a label">
 		</div>
-		
+
       </div>
     </div>
   </div>
@@ -143,4 +150,3 @@
 </div>
 
 {% endblock %}
-
