@@ -1,0 +1,65 @@
+{% extends "../website/templates/base.jinja2" %}
+
+{% block inner_head %}
+    <title>About PeakLearner</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-4" style = "border-color: black; padding:15px; border-width: 2px; border-style: solid; height: 100%; max-width:1000px; min-width:150px">
+
+        <h2 class="text-center">My Hubs</h2>
+        <h4 class="text-center">{{user}}</h4>
+		<form>
+		<input type="checkbox" name="upload" checked="true" value="upload">Upload
+		</form>
+      
+        <hr/>
+
+        <ul>
+            {% for hub in hubInfos %}
+
+                <li style="list-style-type: none">
+                    <div class="card" style = "width: 95%;">
+
+                        <div class="card-header">
+                            <a class="card-link" href = "/{{user}}/{{hub}}/">{{hub}}</a>
+                        </div>
+
+                        <div class="card-body">
+
+
+
+                            <div class="card-text">
+                                <b>Tracks:</b> {{hubInfos[hub]['tracks']|length}}
+                                <br>
+                                <b>Owner:</b> {{user}}
+                                <br>
+                                <b>Users:</b> {{usersdict[hub]}}
+                            </div>
+                            <br>
+
+                            <form action="/addUser/" method="POST">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" id="add-user-label" for="userEmail">
+                                            User Email
+                                        </label>
+                                    </div>
+                                    <input type="text" id="userEmail" name="userEmail" class="form-control" aria-describedby="add-user-label">
+                                    <input value="{{hub}}" id="hubName" type="hidden" name="hubName">
+                                    <input class="btn btn-outline-dark" type="submit" value="add user" style="margin-left: 10px">
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </li>
+
+                <br>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
