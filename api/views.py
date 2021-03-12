@@ -1,7 +1,22 @@
 from pyramid.view import view_config
 from api.Handlers import Jobs, Hubs
+from api.util import PLdb as db
 from api import CommandHandler
 import json
+
+from pyramid.view import view_config
+from pyramid.view import view_defaults
+from pyramid.view import forbidden_view_config
+from api import CommandHandler
+from api.Handlers import Hubs
+from api.util import PLdb as db
+from api.Handlers import Models, Labels, Jobs
+
+from pyramid_google_login.events import UserLoggedIn
+from pyramid.events import subscriber
+
+from pyramid_google_login import *
+from pyramid.security import remember, forget
 
 
 @view_config(route_name='jobInfo', renderer='json')
@@ -19,14 +34,66 @@ def jobs(request):
     return []
 
 
+@view_config(route_name='myHubs', renderer='myHubs.html')
+def myHubs(request):
+    userid = request.authenticated_userid
+    keys = db.HubInfo.keysWhichMatch(db.HubInfo, userid)
+    HubNames = list(map(lambda tuple: tuple[1], keys))
+
+    usersdict = {}
+    for hubName in HubNames:
+        currHubInfo = db.HubInfo(userid, hubName).get()
+
+        usersdict[hubName] = currHubInfo['users'] if 'users' in currHubInfo.keys() else []
+
+    hubInfos = dict(
+                   ('{hubName}'.format(hubName=key[1]), db.HubInfo(key[0], key[1]).get())
+                   for key in keys
+                   )
+    
+    hubInfo = db.HubInfo("zachary.wl.123@gmail.com", "TestHub").get()
+
+    return {"user": userid, "HubNames": HubNames, "hubInfo": hubInfo, "hubInfos": hubInfos, "usersdict": usersdict}
+
+  
+@view_config(route_name='publicHubs', renderer='publicHubs.html')
+def publicHubs(request):
+    userid = request.authenticated_userid
+    keys = db.HubInfo.db_key_tuples()
+    UserNames = list(map(lambda tuple: tuple[0],keys))
+    HubNames = list(map(lambda tuple: tuple[1],keys))
+    return {"user": userid, "UserNames": UserNames, "HubNames": HubNames}
+
+  
+@view_config(route_name='addUser', request_method='POST')
+def addUser(request):
+    userid = request.unauthenticated_userid
+    keys = db.HubInfo.keysWhichMatch(db.HubInfo, userid)
+
+    userEmail = request.params['userEmail']
+    hubName = request.params['hubName']
+	isPublic = request.params['upload']
+
+    hubInfo = db.HubInfo(userid, hubName).get()
+    if 'users' in hubInfo.keys():
+        hubInfo['users'].append(userEmail)
+    else:   
+        hubInfo['users'] = []
+        hubInfo['users'].append(userEmail)
+    
+    hubInfo['users'] = list(set(hubInfo['users']))
+    db.HubInfo(userid, hubName).put(hubInfo)
+
+    url = request.route_url('myHubs')
+    return HTTPFound(location=url)
+
+
 @view_config(route_name='uploadHubUrl', renderer='json')
 def uploadHubUrl(request):
+    user = request.unauthenticated_userid
     if 'POST' == request.method:
         # TODO: Implement user authentication (and maybe an anonymous user?)
-        try:
-            return Hubs.parseHub({'user': 1, 'url': request.json_body['args']['hubUrl']})
-        except json.decoder.JSONDecodeError:
-            return Hubs.parseHub({'user': 1, 'url': request.POST['hubUrl']})
+        return Hubs.parseHub({'user': user, 'url': request.json_body['args']['hubUrl']})
     return
 
 
@@ -54,4 +121,17 @@ def trackData(request):
     if 'POST' == request.method:
         return CommandHandler.runTrackCommand(query, request.method, request.json_body)
     return []
+
+
+@view_config(route_name='doBackup', renderer='json')
+def runBackup(request):
+    return db.doBackup()
+
+
+@view_config(route_name='doRestore', renderer='json')
+def runRestore(request):
+    if 'POST' == request.method:
+        return db.doRestoreWithSelected(request.POST['toRestore'])
+
+    return db.doRestore()
 
